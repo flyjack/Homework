@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 //需判断src和dst的内存拷贝存在重叠的情况
-//对于copy很多时候是将变量重新分配到一个变量上进行
+//对于copy操作的时候，一般是将参数重新进行赋值到另一变量空间上，便于指针移动操作
 //另外copy n个长度的内容，实际上移动的数目是n-1
 void * memmove(void *dst1, const void *src1, size_t n)
 {
