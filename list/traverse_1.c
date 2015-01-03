@@ -1,6 +1,7 @@
 #include "traverse_1.h"
 
-Node *create_node(int i)
+//链表的头是不存储数据的
+Node *create_node(int i = 0)
 {
     Node *node = (Node *)calloc(1, sizeof(Node));
     node->id = i;
