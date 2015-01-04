@@ -19,6 +19,9 @@ $(TARGET) : $(OBJS)
 %.o : %.c
 	$(QUIET_CC) $(CC) -c $(CFLAGS) $< -o $@
 
+dep:
+	$(CC) -MM $(CFLAGS) *.c > Makefile.dep
+
 clean :
 	rm -rf $(TARGET) $(OBJS)
 
