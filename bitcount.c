@@ -1,3 +1,5 @@
+//统计一个数中2的个数，1为普通的算法。O(log2V), 2为较优算法，O()只于1的个数有关。
+
 #include <stdio.h>
 
 typedef char uint8;
