@@ -31,6 +31,24 @@ uint8 get_count2(uint8 a)
     printf("%u",count);
 }
 
+uint8 compare_bit(uint8 a, uint8 b)
+{
+    uint8 count = 0;
+
+    while (a || b)
+    {
+        uint8 c1 = a & 0x01;
+        uint8 c2 = b & 0x01;
+
+        count += (c1 == c2)? 0: 1;
+
+        a >>= 1;
+        b >>= 1;
+    }
+
+    return count;
+}
+
 int main()
 {
     uint8 a = 65;
