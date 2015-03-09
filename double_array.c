@@ -1,13 +1,8 @@
-/*
-动态给二维数组申请空间
-1. 二维指针(空间不连续) 2. 指针数组（需借助于二维指针） 3. 数组指针（空间可连续）
-*/
+//申请二维数组的方法，差别在于申请的空间是否连续
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-//一个m行n列的二维数组
 int ** getMem(int m, int n)
 {
     int **p = (int **)malloc(sizeof(int *) * m);
@@ -17,15 +12,15 @@ int ** getMem(int m, int n)
 
     for (;i<m;i++)
     {
-        *(p+i) = (int *)malloc(sizeof(int) * n);
+        p[i] = (int *)malloc(sizeof(int) * n);
     }
 
     for (i=0;i<m;i++)
     {
         for (j=0;j<n;j++)
         {
-            *(*(p+i)+j) = i*n+j;
-            printf("%d ", *(*(p+i)+j));
+            p[i][j] = i*n+j;
+            printf("%d ", p[i][j]);
         }
 
         printf("\n");
@@ -48,13 +43,16 @@ int main()
     {
         for (j=0;j<n;j++)
         {
-            printf("%d ", *(*(arr+i)+j));
+            printf("%d ", arr[i][j]);
         }
 
-        free(*(arr+i));
+        free(arr[i]);
+        arr[i] = NULL;
 
         printf("\n");
     }
 
+    free(arr);
+    
     return 0;
 }
