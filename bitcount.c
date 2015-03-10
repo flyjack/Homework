@@ -49,6 +49,27 @@ uint8 compare_bit(uint8 a, uint8 b)
     return count;
 }
 
+unsigned int reverse_bits(unsigned int value)
+{
+    int size = sizeof(int) * 8;
+
+    int ret = 0;
+    int bit = 0;
+    int i = 1;
+    
+    //for (; i<size; i++)
+    for (; i != 0; i <<= 1)
+    {
+        ret = ret << 1;
+        bit = value & 1;
+        ret = bit | ret;
+
+        value = value >> 1;
+    }
+
+    return ret;
+}
+
 int main()
 {
     uint8 a = 65;
