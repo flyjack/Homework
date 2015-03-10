@@ -9,9 +9,18 @@ void getMem(char **pp)
     *pp = (char *)malloc(sizeof(char) * 10);
 }
 
+//c语言中的函数参数都是传值调用
+//对指针p地址的赋值，是将值赋给了局部变量，应该使用二级指针，类比于swap函数
+void wrong_getMem(char *p)
+{
+    printf("param dest %d\n", &p);
+    p = (char *)malloc(sizeof(char) * 10);
+}
+
 int main()
 {
     char *p = NULL;
+    printf("src dest is %u\n", &p);
     char stu[] = "beijing";
     getMem(&p);
     strcpy(p, stu);
