@@ -28,6 +28,47 @@ void reverse(char str[])
     }
 }
 
+char const * my_strstr(char const *str, char const *s)
+{
+    if (s == NULL)
+        return str;
+
+    if (str == NULL)
+        return NULL;
+
+    char const *s2 = s;
+
+    //字符串的查找需要原字符串从开头一个字符一个字的添加查找开始
+    while (*str++ != '\0')
+    {
+        char *s1 = strchr(str, *s2);
+
+        if (s1 == NULL)
+            return NULL;
+
+        int m = 0;
+
+        while (*s2 != '\0')
+        {
+            if (*s1 != *s2)
+                break;
+
+            s2++;
+            s1++;
+            m++;
+        }
+
+        if (*s2 == '\0')
+            return s1 - m;
+
+        //重新赋值g
+        s2 = s;
+    }
+
+    if (*str == '\0')
+        return NULL;
+}
+
 int main()
 {
     char a[] = "abcdefg";
