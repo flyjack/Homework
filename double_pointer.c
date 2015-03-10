@@ -1,3 +1,5 @@
+//二级指针在很多地方都有使用： 1。二维数组申请 2. 链表插入 3. 堆空间在子函数中申请
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
