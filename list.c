@@ -115,6 +115,7 @@ void deleteNode(Node **p, int value)
     }
 }
 
+//TODO reverse list 
 void reverseLinkList(Node **p)
 {
     
