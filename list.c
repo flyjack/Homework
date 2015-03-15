@@ -1,3 +1,5 @@
+//二维指针在单链表中应用较为广泛，双向链表少
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
