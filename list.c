@@ -5,11 +5,31 @@
 
 typedef struct node
 {
-     int value;
-     struct node *next;
+    int value;
+    struct node *next;
 }Node;
 
-//linkp是局部变量
+void listPopHead(Node **linkp)
+{
+    Node *entry = *linkp;
+    *linkp = (*linkp)->next;
+    printf("pop head value is %d\n", entry->value);
+    free(entry);
+}
+
+void listAddHead(Node **linkp, int value)
+{
+    Node *new = (Node *)malloc(sizeof(Node));
+
+    if (new == NULL)
+        return;
+
+    new->value = value;
+    new->next = (*linkp==NULL)? NULL: *linkp;
+
+    *linkp = new;
+}
+
 void _insertLinkList(Node **linkp, int value)
 {
     register Node *cur;
@@ -25,7 +45,7 @@ void _insertLinkList(Node **linkp, int value)
 
     new->value = value;
     new->next = cur;
-    
+
     *linkp = new;
 }
 
@@ -115,10 +135,10 @@ void deleteNode(Node **p, int value)
     }
 }
 
-//TODO reverse list 
+//TODO reverse list
 void reverseLinkList(Node **p)
 {
-    
+
 }
 
 void freeLinkList(Node **p)
@@ -137,25 +157,30 @@ void freeLinkList(Node **p)
 int main()
 {
     Node *head = NULL;
-    
+
     int i = 0;
     srand(time(NULL));
 
     for (;i<10;i++)
     {
         int v = rand() / 10000;
+        printf("v is %d\n", v);
         _insertLinkList(&head, v);
     }
 
     _insertLinkList(&head, 30000);
     traverseLinkList(&head);
-    
+
+    for (i=0;i<11;i++)
+        listPopHead(&head);
+
+    traverseLinkList(&head);
+
     deleteNode(&head, 30000);
     printf("After delete .... \n");
 
     traverseLinkList(&head);
     printf("After reverse .... \n");
-
 
     freeLinkList(&head);
 
