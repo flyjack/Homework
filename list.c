@@ -1,4 +1,4 @@
-//二维指针在单链表中应用较为广泛，双向链表少
+//二维指针在单链表中应用较为广泛，可以将灵活多变的头节点进行改变, 双向链表使用较少，因为有单独的头尾节点
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -86,7 +86,7 @@ void traverseLinkList(Node **p)
 
     while (cur)
     {
-        printf("value is %d\n", cur->value);
+        printf("value is %d\t", cur->value);
         cur = cur->next;
     }
 }
@@ -111,6 +111,24 @@ void _deleteNode(Node **p, int value)
 
         cur = &entry->next;
     }
+}
+
+//反转单链表，思路主要是添加一个伪节点，进行逆序
+void rotateLinklist(Node **linkp)
+{
+    Node *cur = *linkp;
+    Node *last = NULL;
+    Node *next;
+
+    while (cur)
+    {
+        next = cur->next;
+        cur->next = last;
+        last = cur;
+        cur = next;
+    }
+
+    *linkp = last;
 }
 
 void deleteNode(Node **p, int value)
@@ -166,13 +184,16 @@ int main()
     for (;i<10;i++)
     {
         int v = rand() / 10000;
-        printf("v is %d\n", v);
         _insertLinkList(&head, v);
     }
 
     _insertLinkList(&head, 30000);
     traverseLinkList(&head);
+    printf("\n");
+    rotateLinklist(&head);
 
+    traverseLinkList(&head);
+/*
     for (i=0;i<11;i++)
         listPopHead(&head);
 
@@ -183,7 +204,7 @@ int main()
 
     traverseLinkList(&head);
     printf("After reverse .... \n");
-
+*/
     freeLinkList(&head);
 
     return 0;
