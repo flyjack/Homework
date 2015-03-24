@@ -1,7 +1,12 @@
 //TODO二叉树的后序遍历存在问题
 
+//gcc -lm
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+
+#define MAX_STACK_COUNT 20
 
 struct Bitree
 {
@@ -15,7 +20,7 @@ typedef struct Bitree * LinkBitree;
 //创建一个顺序结构存储的栈
 struct Stack
 {
-    LinkBitree data[20];
+    LinkBitree data[MAX_STACK_COUNT];
     int top;
 };
 
@@ -57,7 +62,7 @@ LinkBitree CreatBitree()
 LinkStack InitStack()
 {
     LinkStack pstack;
-    pstack = (LinkStack)malloc(sizeof(StackNode));
+    pstack = (LinkStack)calloc(1, sizeof(StackNode)); 
 
     if (pstack == NULL)
     {
@@ -65,52 +70,12 @@ LinkStack InitStack()
         exit(0);
     }
     
-    pstack->top = 0;
-    
     return pstack;
 }
 
 void PostorderTraverse(LinkBitree phead, LinkStack pstack1, LinkStack pstack2)
 {
-    do 
-    {
-        while (phead)
-        {
-            if (phead->Lchild)
-            {
-                pstack1->data[pstack1->top] = phead->data;
-                pstack1->top++;
-                phead = phead->Lchild;
-            }
-            else
-            {
-                if (phead->Rchild)
-                {
-                    pstack1->data[pstack1->top] = phead->data;
-                    pstack1->top++;
-                    phead = phead->Rchild;
-                }
-                else
-                {
-                    pstack2->data[pstack2->top] = phead->data;
-                    pstack2->top++;
-                    phead = NULL;
-                }
-            }
-        }
 
-        if (pstack2->top)
-        {
-            pstack2->top--;
-            phead = pstack2->data[pstack2->top];
-            printf("%d\t", phead->data);
-
-            pstack1->top--;
-            phead = pstack1->data[pstack1->top];
-            printf("%d\t", phead->data);
-        }
-
-    } while(pstack1->top || phead);
 }
 
 void InorderTraverse(LinkBitree phead, LinkStack pstack)
@@ -204,6 +169,44 @@ void _PostorderTraverse(LinkBitree phead)
     return;
 }
 
+void leverTraverse(LinkBitree phead, LinkStack pstack)
+{
+    if (phead == NULL)
+        return;
+
+    pstack->data[pstack->top] = phead;
+    pstack->top++;
+
+    int cur = 0;
+
+    while (cur < pstack->top)
+    {
+        int last = pstack->top;
+
+        while (cur < last)
+        {
+            LinkBitree ptree = pstack->data[cur];
+            printf("%d ", ptree->data);
+
+            if (ptree->Lchild)
+            {
+                pstack->data[pstack->top] = ptree->Lchild;
+                pstack->top++;
+            }
+
+            if (ptree->Rchild)
+            {
+                pstack->data[pstack->top] = ptree->Rchild;
+                pstack->top++;
+            }
+
+            cur++;
+        }
+
+        printf("\n");
+    }
+}
+
 int main()
 {
     printf("Please tree node \n");
@@ -218,6 +221,7 @@ int main()
     printf("\n");
     _PostorderTraverse(phead);
     printf("\n");
+    
     printf("Non Recursion get tree node \n");
     PreorderTraverse(phead, pstack);
     printf("\n");
@@ -225,5 +229,8 @@ int main()
     printf("\n");
     //PostorderTraverse(phead, pstack);
 
+    printf("Lever Traverse is \n");
+    leverTraverse(phead, pstack);
+    
     return 0;
 }
