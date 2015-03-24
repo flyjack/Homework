@@ -197,6 +197,7 @@ void freeBitree(LinkBitree phead)
     return;
 }
 
+//height的高度也为树的高度, max为二叉树的宽度
 void leverTraverse(LinkBitree phead, LinkStack pstack)
 {
     if (phead == NULL)
@@ -205,7 +206,10 @@ void leverTraverse(LinkBitree phead, LinkStack pstack)
     pstack->data[pstack->top] = phead;
     pstack->top++;
 
+    int height = 0;
     int cur = 0;
+    int width = 0;
+    int max = 0;
 
     while (cur < pstack->top)
     {
@@ -215,6 +219,7 @@ void leverTraverse(LinkBitree phead, LinkStack pstack)
         {
             LinkBitree ptree = pstack->data[cur];
             printf("%d ", ptree->data);
+            width++;
 
             if (ptree->Lchild)
             {
@@ -231,8 +236,13 @@ void leverTraverse(LinkBitree phead, LinkStack pstack)
             cur++;
         }
 
+        height++;
+        max = (width > max)? width: max;
+        width = 0;
         printf("\n");
     }
+
+    printf("height is %d, width is %d\n", height, max);
 }
 
 void traverseBitreeIndex(LinkBitreeIndex pindex)
