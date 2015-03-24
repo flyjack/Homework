@@ -11,11 +11,23 @@
 struct Bitree
 {
     int data;
+    int index;
     struct Bitree *Lchild,*Rchild;
 };
 
 typedef struct Bitree BitreeNode;
 typedef struct Bitree * LinkBitree;
+
+//二叉树的序列化，注意递归，堆栈和队列的使用
+//保存二叉树形态，注意应用i 2i 2i+1的关系
+struct BitreeIndex
+{
+    LinkBitree ptree;
+    unsigned int index;
+};
+
+typedef struct BitreeIndex BitreeIndex;
+typedef struct BitreeIndex * LinkBitreeIndex;
 
 //创建一个顺序结构存储的栈
 struct Stack
@@ -27,11 +39,8 @@ struct Stack
 typedef struct Stack StackNode;
 typedef struct Stack * LinkStack;
 
-LinkBitree CreatBitree();
-LinkStack InitStack();
-void InorderTraverse(LinkBitree, LinkStack);
-
-LinkBitree CreatBitree()
+//建立树的时候保存下标关系
+LinkBitree CreatBitree(int index)
 {
     int data;
     LinkBitree phead;
@@ -50,11 +59,12 @@ LinkBitree CreatBitree()
     }
 
     phead->data = data;
+    phead->index = index;
 
     printf("Please Input %d left node \n", phead->data);
-    phead->Lchild = CreatBitree();
+    phead->Lchild = CreatBitree(index*2);
     printf("Please Input %d right node \n", phead->data);
-    phead->Rchild = CreatBitree();
+    phead->Rchild = CreatBitree(index*2+1);
 
     return phead;
 }
@@ -169,6 +179,24 @@ void _PostorderTraverse(LinkBitree phead)
     return;
 }
 
+//销毁一个树，左右子树都没有的情况下进行销毁
+void freeBitree(LinkBitree phead)
+{
+    if (phead)
+    {
+        if ((phead->Lchild == NULL) && (phead->Rchild == NULL))
+            free(phead);
+
+        if (phead->Lchild)
+            freeBitree(phead->Lchild);
+
+        if (phead->Rchild)
+            freeBitree(phead->Rchild);
+    }
+
+    return;
+}
+
 void leverTraverse(LinkBitree phead, LinkStack pstack)
 {
     if (phead == NULL)
@@ -207,10 +235,31 @@ void leverTraverse(LinkBitree phead, LinkStack pstack)
     }
 }
 
+void traverseBitreeIndex(LinkBitreeIndex pindex)
+{
+
+}
+
+void serializeBitree(LinkBitree phead)
+{
+    if (phead)
+    {
+        printf("data %d, index %d \n", phead->data, phead->index);
+
+        if (phead->Lchild)
+            serializeBitree(phead->Lchild);
+
+        if (phead->Rchild)
+            serializeBitree(phead->Rchild);
+    }
+
+    return;
+}
+
 int main()
 {
     printf("Please tree node \n");
-    LinkBitree phead = CreatBitree();
+    LinkBitree phead = CreatBitree(1);
     LinkStack pstack = InitStack();
 
     printf("Recursion get tree node:\n");
@@ -231,6 +280,12 @@ int main()
 
     printf("Lever Traverse is \n");
     leverTraverse(phead, pstack);
+
+    printf("---------------------\n");
+    serializeBitree(phead);
+
+    freeBitree(phead);
+    free(pstack);
     
     return 0;
 }
