@@ -51,6 +51,8 @@ int bloom_add(BLOOM *bloom, const char *s)
 
 	for(n=0; n<bloom->nfuncs; ++n) {
 		printf("hash val is %d ", (bloom->funcs[n](s))%(bloom->asize));
+		//可以将hash出的值再处理，得到两个，key1，key2，分别用key1和key2设置标准位
+		//重复率最少是8个hash函数，每个元素占用16个标准位
 		SETBIT(bloom->a, bloom->funcs[n](s)%bloom->asize);
 	}
 	printf("\n");
