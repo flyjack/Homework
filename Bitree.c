@@ -90,9 +90,41 @@ LinkStack InitStack()
     return pstack;
 }
 
-void PostorderTraverse(LinkBitree phead, LinkStack pstack1, LinkStack pstack2)
+void _SwapTree(LinkBitree ptree)
 {
+    LinkBitree temp = ptree->Lchild;
+    ptree->Lchild = ptree->Rchild;
+    ptree->Rchild = temp;
+}
 
+void SwapTree(LinkBitree phead, LinkStack pstack)
+{
+    printf("SwapTree Function .... \n");
+
+    LinkBitree ptree;
+
+    pstack->data[pstack->top] = phead;
+    pstack->top++;
+
+    while (pstack->top > 0)
+    {
+        pstack->top--;
+        ptree = pstack->data[pstack->top];
+
+        _SwapTree(ptree);
+
+        if (ptree->Lchild)
+        {
+            pstack->data[pstack->top] = ptree->Lchild;
+            pstack->top++;
+        }
+
+        if (ptree->Rchild)
+        {
+            pstack->data[pstack->top] = ptree->Rchild;
+            pstack->top++;
+        }
+    }
 }
 
 void InorderTraverse(LinkBitree phead, LinkStack pstack)
@@ -371,6 +403,8 @@ int main()
     printf("\n");
     _PostorderTraverse(phead);
     printf("\n");
+
+    SwapTree(phead, pstack);
 
     printf("Non Recursion get tree node \n");
     PreorderTraverse(phead, pstack);
