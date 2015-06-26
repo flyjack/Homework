@@ -36,6 +36,7 @@ typedef struct BitreeIndex BitreeIndex;
 typedef struct BitreeIndex * LinkBitreeIndex;
 
 //创建一个顺序结构存储的栈
+//top指向下一个待插入的下标
 struct Stack
 {
     LinkBitree data[MAX_STACK_COUNT];
@@ -164,6 +165,69 @@ void PreorderTraverse(LinkBitree phead, LinkStack pstack)
         {
             pstack->top--;
             phead = pstack->data[pstack->top];
+            phead = phead->Rchild;
+        }
+
+    } while(pstack->top || phead);
+}
+
+void PostorderTraverse(LinkBitree phead, LinkStack pstack)
+{
+    LinkBitree ptree = NULL;
+    LinkBitree proot = phead;
+    int istraverse = 0;
+    int index = 0;
+
+    do
+    {
+        while (phead)
+        {
+            pstack->data[pstack->top] = phead;
+            pstack->top++;
+            phead = phead->Lchild;
+        }
+
+        if (pstack->top)
+        {
+            index = pstack->top - 1;
+            phead = pstack->data[index];
+        }
+
+        if (phead->Rchild == NULL)
+        {
+            pstack->top--;
+            printf("%d\t", phead->data);
+
+            ptree = phead;
+            index = pstack->top - 1;
+            phead = pstack->data[index];
+
+            if (phead->Rchild == ptree)
+            {
+                pstack->top--;
+                printf("%d\t", phead->data);
+                phead = NULL;
+            }
+            else
+            {
+                phead = phead->Rchild;
+            }
+        }
+        else
+        {
+            if (proot == phead)
+            {
+                if (istraverse == 1)
+                {
+                    printf("%d\t", phead->data);
+                    return;
+                }
+                else
+                {
+                    istraverse = 1;
+                }
+            }
+
             phead = phead->Rchild;
         }
 
@@ -411,7 +475,7 @@ int main()
     printf("\n");
     InorderTraverse(phead, pstack);
     printf("\n");
-    //PostorderTraverse(phead, pstack);
+    PostorderTraverse(phead, pstack);
 
     printf("Lever Traverse is \n");
     leverTraverse(phead, pstack);
