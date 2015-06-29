@@ -1,5 +1,5 @@
 //二维指针在单链表中应用较为广泛，可以将灵活多变的头节点进行改变, 双向链表使用较少，因为有单独的头尾节点
-
+//链表专业点的变量时prev, cur, next;
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
