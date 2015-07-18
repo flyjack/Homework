@@ -1,45 +1,33 @@
-#include <stdio.h>
+#include <iostream>
+#include <algorithm>
 
-void swap(int *a, int *b)
+using namespace std;
+
+int partition(int a[], int b, int e)
 {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
+    int pivot = a[e];
+    int i;
+    int k = b;
 
-int partition(int *arr, int len, int index)
-{
-    int temp = arr[index];
-    int s_len = 0;
-    int i = 0;
-
-    swap(&arr[index], &arr[len-1]);
-
-    for (; i<len; i++)
+    for (i=b; i<e; i++)
     {
-        if (arr[i]<temp)
-        {
-            swap(&arr[i], &arr[s_len]);
-            s_len++;
-        }
+        if (a[i] <= pivot)
+            swap(a[i], a[k++]);
     }
 
-    swap(&arr[len-1], &arr[s_len]);
+    swap(a[k], a[e]);
 
-    return s_len;
+    return k;
 }
 
-void quick_sort(int *arr, int len)
+void quick_sort(int a[], int begin, int end)
 {
-    if (len == 0 || len == 1)
-        return;
-
-    int small_len = partition(arr, len, 0);
-
-    quick_sort(arr, small_len);
-    
-    //将标杆值也进行了调换，所以下标开始要加1, 且注意&
-    quick_sort(&arr[small_len+1], len-small_len-1);
+    if (begin < end)
+    {
+        int pivot = partition(a, begin, end);
+        quick_sort(a, begin, pivot-1);
+        quick_sort(a, pivot+1, end);
+    }
 }
 
 int main()
@@ -49,15 +37,15 @@ int main()
     size_t len = sizeof(arr) / sizeof(arr[0]);
 
     for (; m<len; m++)
-        printf("%d\t", arr[m]);
+        cout<<arr[m]<<"\t";
 
-    printf("\n");
-    quick_sort(arr, len);
+    cout<<endl;
+    quick_sort(arr, 0, len-1);
 
     m = 0;
 
     for (; m<len; m++)
-        printf("%d\t", arr[m]);
+        cout<<arr[m]<<"\t";
 
     return 0;
 }
