@@ -13,6 +13,21 @@ void swapFun(char *a, char *b)
     *b = m;
 }
 
+char *strcpy(char *, char *)
+{
+    char src1[] = "abcedf";
+    char dst1[100] = {'\0'};
+
+    char *dst  = dst1;
+
+    char *dst2 = dst1;
+    char *src2 = src1;
+
+    while ((*dst2++ = *src2++) != '\0');
+
+    printf("%s\n", dst);
+}
+
 void reverse(char str[])
 {
     int i = 0;
