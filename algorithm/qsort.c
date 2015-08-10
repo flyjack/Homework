@@ -7,6 +7,7 @@ int partition(int a[], int b, int e)
 {
     int pivot = a[e];
     int i;
+    //此处的情况
     int k = b;
 
     for (i=b; i<e; i++)
@@ -20,6 +21,7 @@ int partition(int a[], int b, int e)
     return k;
 }
 
+//强调begin<end的，递归必须有跳出的条件
 void quick_sort(int a[], int begin, int end)
 {
     if (begin < end)
